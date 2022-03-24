@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import TodoContext from './Component/Contexts/TodoContext'
 import HandleStatusContext from './Component/Contexts/HandleStatusContext'
 import InputTodoContext from './Component/Contexts/InputTodoContext'
@@ -7,50 +7,58 @@ import './Style/Style.css'
 
 export default function App() {
 
-
-
-  const todo: any = [
+  const [todoes, setTodoes] = useState<any>([
     { id: 1, content: "task 1", status: "completed" },
-    { id: 2, content: "task 2", status: "active" },
-  ]
-
-  const [todoes, setTodoes] = useState(todo)
+  ])
   const [filter, setFilter] = useState("active");
 
+  
+  useEffect(() => {
+    const localStorageData: any = JSON.parse(localStorage.getItem('todoes') as any);
+    setTodoes(
+      localStorageData
+    );
+  }, [])
 
-  const HandleNewTodo = (input: any) => {
+
+  useEffect(() => {
+    localStorage.setItem('todoes', JSON.stringify(todoes));
+  }, [todoes])
+
+
+
+
+
+  const handleNewTodo = (input: any) => {
     const { input: input2 } = input;
     setTodoes([...todoes, { id: todoes.length + 1, content: input2, status: "active" }])
   }
 
-
-
-
   const handleStatusTodo = (id: number) => {
-    const newTodo = [...todoes]
-    newTodo.map((item: any) => {
-      if (item.id === id) {
-        item.status = item.status === 'active' ? 'completed' : 'active'
-      }
-      return newTodo
+    setTodoes((prev: any) => {
+      const clone = [...prev];
+      clone.map((item: any) => {
+        if (item.id === id) {
+          item.status = item.status === 'active' ? 'completed' : 'active';
+        }
+      })
+      return clone
     })
-    setTodoes(newTodo)
   }
-
 
   const handleFilterValue = (filter: string) => {
     setFilter(filter);
   };
 
   return (
-    <TodoContext.Provider value={todoes} >
-      <InputTodoContext.Provider value={{ InputTodo: HandleNewTodo }} >
-        <HandleStatusContext.Provider value={{ StatusTodo: handleStatusTodo }} >
-          <div>
+    <>
+      <TodoContext.Provider value={todoes} >
+        <InputTodoContext.Provider value={{ InputTodo: handleNewTodo }} >
+          <HandleStatusContext.Provider value={{ StatusTodo: handleStatusTodo }} >
             <TodoList handleFilterValue={handleFilterValue} filter={filter} />
-          </div >
-        </HandleStatusContext.Provider>
-      </InputTodoContext.Provider>
-    </TodoContext.Provider >
+          </HandleStatusContext.Provider>
+        </InputTodoContext.Provider>
+      </TodoContext.Provider >
+    </>
   )
 }

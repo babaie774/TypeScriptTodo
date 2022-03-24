@@ -1,6 +1,6 @@
 /* eslint-disable no-script-url */
 import React, { useState, useContext } from 'react'
-import InputTodoContext from '../Component/Contexts/InputTodoContext'
+import InputTodoContext from './Contexts/InputTodoContext'
 
 export default function FormInput() {
 
