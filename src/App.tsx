@@ -13,6 +13,7 @@ export default function App() {
   const [filter, setFilter] = useState("active");
 
   
+  
   useEffect(() => {
     const localStorageData: any = JSON.parse(localStorage.getItem('todoes') as any);
     setTodoes(
