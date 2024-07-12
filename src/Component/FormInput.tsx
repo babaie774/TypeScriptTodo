@@ -9,12 +9,10 @@ export default function FormInput() {
 
     const HandleInputTodo = (event: any) => {
         setInput({ input: event.target.value });
-        // console.log(event);
-    }
+   }
 
     const handleSubmit = (event: any) => {
         event.preventDefault();
-        // console.log('OK')
         HandleNewTodo(input);
         setInput({ input: '' });
     }

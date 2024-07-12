@@ -12,7 +12,7 @@ const ListItem: React.FC<ListItemProps> = ({ filter }) => {
     const todoList = useContext(todoContext);
     const { StatusTodo: handleStatusTodo } = useContext(HandleStatusContext);
     const filteredTodos = filter !== 'all' ? todoList.filter((todo: any) => todo.status === filter) : todoList;
-    const todoes = filteredTodos.map((todo: any, index: number) => {
+    const todos = filteredTodos.map((todo: any, index: number) => {
         const checked = todo.status === 'completed' ? true : false;
         return (
             <div key={index} className="todo-item">
@@ -24,7 +24,7 @@ const ListItem: React.FC<ListItemProps> = ({ filter }) => {
     })
     return (
         <div>
-            {todoes}
+            {todos}
         </div>
     )
 }
