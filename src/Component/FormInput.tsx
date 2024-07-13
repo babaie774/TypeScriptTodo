@@ -1,30 +1,34 @@
 /* eslint-disable no-script-url */
-import React, { useState, useContext } from 'react'
-import InputTodoContext from './Contexts/InputTodoContext'
+import { ChangeEvent, FormEvent, useContext, useState } from 'react';
+import InputTodoContext from '../Contexts/InputTodoContext';
 
 export default function FormInput() {
+  const [input, setInput] = useState<{ input: string }>({ input: '' });
+  const { handleNewTodo } = useContext(InputTodoContext);
 
-    const [input, setInput] = useState<any>({});
-    const { InputTodo: HandleNewTodo } = useContext(InputTodoContext);
+  const handleInputTodo = (event: ChangeEvent<HTMLInputElement>) => {
+    setInput({ input: event.target.value });
+  };
 
-    const HandleInputTodo = (event: any) => {
-        setInput({ input: event.target.value });
-   }
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    handleNewTodo(input);
+    setInput({ input: '' });
+  };
 
-    const handleSubmit = (event: any) => {
-        event.preventDefault();
-        HandleNewTodo(input);
-        setInput({ input: '' });
-    }
+  const val = input?.input;
 
-    const val = input?.input;
-
-
-    return (
-        <div>
-            <form action="javascript:void(0);" onSubmit={(event) => { handleSubmit(event) }}>
-                <input type="text" value={val} className="form-control add-task" onChange={(event) => { HandleInputTodo(event) }} placeholder="New Task..." />
-            </form>
-        </div>
-    )
+  return (
+    <div>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          value={val}
+          className="form-control add-task"
+          onChange={handleInputTodo}
+          placeholder="New Task..."
+        />
+      </form>
+    </div>
+  );
 }

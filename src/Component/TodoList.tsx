@@ -1,12 +1,13 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable no-script-url */
 import React from 'react';
+import { StatusType } from '../types/type';
 import FormInput from './FormInput';
 import ListItem from './ListItem';
 import TodoNav from './TodoNav';
 
 type TodoNavProps = {
-  handleFilterValue: (filter: 'all' | 'completed' | 'active') => void;
+  handleFilterValue: (filter: StatusType) => void;
   filter: string;
 };
 
@@ -16,7 +17,12 @@ const TodoList: React.FC<TodoNavProps> = (props) => {
       <div className="container">
         <div className="row">
           <div className="col-md-12">
-            <div className="card card-white">
+            <div
+              className="card card-white"
+              style={{
+                minHeight: '90vh',
+              }}
+            >
               <div className="card-body">
                 <FormInput />
                 <TodoNav handleFilterValue={props.handleFilterValue} />
